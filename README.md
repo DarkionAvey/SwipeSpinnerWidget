@@ -1,7 +1,9 @@
 <img src="/preview.gif" width="300" align="right" alt="SwipeSpinnerWidget demo" hspace="20">
 <h1>SwipeSpinnerWidget</h1>
+<a href="https://github.com/DarkionAvey/SwipeSpinnerWidget/blob/7cf7405b88329fed83e15261fb80f40dd4504e4d/app/release/app-release.apk?raw=true">Download Demo APK (for Android Lollipop+)</a>
 
- <p>A spinner which allows the user to scroll the whole list through a single
+
+<p>A spinner which allows the user to scroll the whole list through a single
  dragging gesture. This is a helper class which binds to an existing recycler
  view. The use of recycler view ensures better performance and
  better long-term support.
@@ -9,6 +11,8 @@
  set the orientation by using LinearLayoutManager.setOrientation(int).
  Customization is not included in the helper class; check the companion demo app to see
 how to add indication arrows and for other tricks.</p>
+<h3>Compatibilty</h3>
+The helper class is backwards compatible the same way as RecyclerView. The demo app is Lollipop+ due to vector drawables.
 
 <h3>Include it in your app</h3>
 <p>Copy <a href="https://raw.githubusercontent.com/DarkionAvey/SwipeSpinnerWidget/master/app/src/main/java/net/darkion/swipespinner/SwipeSpinnerHelper.java">SwipeSpinnerHelper.Java</a> class to your app. That's it!</p> <br>
