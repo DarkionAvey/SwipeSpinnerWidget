@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/colors"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/cover"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:srcCompat="@drawable/ic_color_lens" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/imageView"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="42dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/month"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cover"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:srcCompat="@drawable/ic_cake" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/face"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="42dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/emoji"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/month"
+        app:srcCompat="@drawable/ic_tag_faces" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/cover"
+        android:layout_width="50dp"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colors"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:layout_editor_absoluteX="24dp" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/date"
+        android:layout_width="80dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginStart="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/month"
+        app:layout_constraintEnd_toStartOf="@+id/month"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/month" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/month"
+        android:layout_width="165dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/face"
+        app:layout_constraintEnd_toStartOf="@+id/year"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/date"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/year"
+        android:layout_width="105dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/month"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/month"
+        app:layout_constraintTop_toTopOf="@+id/month" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/emoji"
+        android:layout_width="85dp"
+        android:layout_height="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/face" />
+</android.support.constraint.ConstraintLayout>

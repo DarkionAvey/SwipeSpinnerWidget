@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:gravity="bottom|end"
+        android:drawable="@drawable/ic_arrow_down" />
+
+    <item
+        android:gravity="top|end"
+        android:drawable="@drawable/ic_arrow_up" />
+</layer-list>
