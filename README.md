@@ -16,7 +16,7 @@ The helper class is backwards compatible the same way as RecyclerView. The demo 
 <h3>Credits</h3>
 Based on <a href="https://www.uplabs.com/posts/stepper-xvi">original UX design</a> by Oleg Frolov
 <h3>Include it in your app</h3>
-<p>Copy <a href="https://raw.githubusercontent.com/DarkionAvey/SwipeSpinnerWidget/master/app/src/main/java/net/darkion/swipespinner/SwipeSpinnerHelper.java">SwipeSpinnerHelper.Java</a> class to your app. That's it!</p> <br>
+<p>Copy <a href="https://raw.githubusercontent.com/DarkionAvey/SwipeSpinnerWidget/master/app/src/main/java/net/darkion/swipespinner/SwipeSpinnerHelper.java">SwipeSpinnerHelper.Java</a> class to your app. That's it!</p>
 <h3>How to use</h3>
 Bind recycler view object to SwipeSpinnerHelper class using static method
  
