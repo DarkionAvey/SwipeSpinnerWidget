@@ -32,6 +32,7 @@ import android.view.ViewConfiguration;
 public class SwipeSpinnerHelper {
     //set to 1 to make scrolling linear; >1 to make it exponential
     private static final double SCROLL_EXPONENT = 2.8;
+    private static final boolean DEBUG = false;
     private RecyclerView mRecyclerView;
     private final static String TAG = "SwipeSpinnerHelper";
     private ScrollCallbacks mScrollCallbacks;
@@ -64,11 +65,13 @@ public class SwipeSpinnerHelper {
         return mRecyclerView;
     }
 
-    private SwipeSpinnerHelper(@NonNull RecyclerView recyclerView) {
+    private SwipeSpinnerHelper(@NonNull final RecyclerView recyclerView) {
         this.mRecyclerView = recyclerView;
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
+                if (!(recyclerView.getLayoutManager() instanceof LinearLayoutManager))
+                    throw new RuntimeException("Layout manager should not be null and should be instance of LinearLayoutManager");
                 mPagerSnapHelper.attachToRecyclerView(mRecyclerView);
                 ViewConfiguration viewConfiguration = ViewConfiguration.get(mRecyclerView.getContext());
                 mTouchSlop = viewConfiguration.getScaledTouchSlop();
@@ -92,6 +95,12 @@ public class SwipeSpinnerHelper {
         });
     }
 
+    /**
+     * Use this method to register callbacks to scrolling and
+     * reset events. See {@link ScrollCallbacks}
+     *
+     * @param scrollCallbacks the callbacks object that you want to register
+     */
     public void setScrollCallbacks(ScrollCallbacks scrollCallbacks) {
         this.mScrollCallbacks = scrollCallbacks;
     }
@@ -100,14 +109,27 @@ public class SwipeSpinnerHelper {
         return (LinearLayoutManager) mRecyclerView.getLayoutManager();
     }
 
+    /**
+     * Convenience method to check if attached linear layout manager
+     * is vertical or horizontal. This potentially throws NullPointerException
+     *
+     * @return if LinearLayoutManager is vertical
+     */
     public boolean isVertical() {
         return getLinearLayoutManager().getOrientation() == RecyclerView.VERTICAL;
     }
 
+    /**
+     * This is used in both onInterceptTouchEvent and onTouchEvent
+     * because of the RecyclerView.OnItemTouchListener works. If
+     * you were to create a class extending RecyclerView, you can
+     * use this only in onTouchEvent, and return true to touch interception
+     */
     private boolean handleTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 xyDifference = 0;
+                //for a lousy fling detection
                 mDownTime = System.currentTimeMillis();
                 mInitXY = isVertical() ? event.getRawY() : event.getRawX();
                 return true;
@@ -136,6 +158,9 @@ public class SwipeSpinnerHelper {
                 LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
 
 
+                //not using fling detection would result in displacement
+                //that is not large enough to move the item (due to interpolation)
+                //hence we use try to detect fling and manually shift the item
                 if (isFling) {
                     int position = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
                     View view = linearLayoutManager.findViewByPosition(position);
@@ -170,8 +195,12 @@ public class SwipeSpinnerHelper {
         return true;
     }
 
+    /**
+     * Manual invocation of SnapHelper since it doesn't work
+     * when using {@link RecyclerView#scrollBy(int, int)}; it
+     * only works with touch gestures, which is not the case here.
+     */
     private void snapToItem() {
-        Log.i(TAG, "snapToItem");
         LinearLayoutManager linearLayoutManager = (LinearLayoutManager) mRecyclerView.getLayoutManager();
         int id = mDraggingUp ? linearLayoutManager.findLastCompletelyVisibleItemPosition() : linearLayoutManager.findFirstCompletelyVisibleItemPosition();
         if (id == -1)
@@ -186,9 +215,9 @@ public class SwipeSpinnerHelper {
             if (view != null) {
                 int[] values = mPagerSnapHelper.calculateDistanceToFinalSnap(linearLayoutManager, view);
                 if (values != null) mRecyclerView.smoothScrollBy(values[0], values[1]);
-                else Log.w(TAG, "snapToItem: values[] is null");
-            } else Log.w(TAG, "snapToItem: view is null");
-        } else Log.w(TAG, "snapToItem: ID is -1");
+                else if (DEBUG) Log.w(TAG, "snapToItem: values[] is null");
+            } else if (DEBUG) Log.w(TAG, "snapToItem: view is null");
+        } else if (DEBUG) Log.w(TAG, "snapToItem: ID is -1");
     }
 
     /**
@@ -211,7 +240,6 @@ public class SwipeSpinnerHelper {
     private float getDragThreshold() {
         return isVertical() ? mRecyclerView.getHeight() : mRecyclerView.getWidth() * (isVertical() ? 1.5f : 0.9f);
     }
-
 
     /**
      * @author Launcher3
@@ -238,6 +266,12 @@ public class SwipeSpinnerHelper {
         }
     }
 
+    /**
+     * Interface that allows detection of scrolling events.
+     * You can use directedInterpolationFraction to detect the
+     * scrolling direction as well as the amount.
+     * directedInterpolationFraction value is between -1 & 1
+     */
     public interface ScrollCallbacks {
         void onScrolled(float directedInterpolationFraction);
 
